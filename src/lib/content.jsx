@@ -100,7 +100,9 @@ export function ContentProvider({ children }) {
   useEffect(() => {
     if (!CONTENT_URL) return
     let alive = true
-    fetch(CONTENT_URL)
+    const url = new URL(CONTENT_URL, window.location.origin)
+    url.searchParams.set('fresh', '1')
+    fetch(url, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!alive || !data || typeof data.content !== 'object') return
