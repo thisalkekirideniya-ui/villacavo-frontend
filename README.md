@@ -39,6 +39,9 @@ admin (5174) ──publish / upload──▶ backend (5175) ◀──GET /api/co
 - `VITE_ADMIN_URL` (e.g. `https://villacavo-admin.vercel.app`) tells the website which admin may send it
   a draft for Preview.
 - Website on Vercel: **Settings → Environment Variables** → add both, then redeploy.
+- Contact form email uses EmailJS. Set `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, and
+  `VITE_EMAILJS_PUBLIC_KEY` in `.env.local` for development and in the website's Vercel environment,
+  then redeploy.
 
 ## Pages
 Home · About · Rooms & Suites · Experiences (services & spa) · Dining · Gallery · Contact (map + FAQ) · Book (reservation request) · 404

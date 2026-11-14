@@ -10,13 +10,61 @@ export default function Contact() {
   const subjects = lines(formCopy.subjects)
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: subjects[0] || 'General enquiry', message: '' })
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    const body = `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`
-    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(`[Villa Cavo] ${form.subject}`)}&body=${encodeURIComponent(body)}`
-    setSent(true)
+    setError('')
+    const { VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY } = import.meta.env
+    if (!VITE_EMAILJS_SERVICE_ID || !VITE_EMAILJS_TEMPLATE_ID || !VITE_EMAILJS_PUBLIC_KEY) {
+      setError(`Email sending is not configured. Please email us at ${contact.email}.`)
+      return
+    }
+
+    const escapeHtml = (value) => value.replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    })[char])
+
+    setSending(true)
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: VITE_EMAILJS_SERVICE_ID,
+          template_id: VITE_EMAILJS_TEMPLATE_ID,
+          user_id: VITE_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            to_email: contact.email,
+            reply_to: form.email.trim(),
+            name: form.name.trim(),
+            name_html: escapeHtml(form.name.trim()),
+            email: form.email.trim(),
+            email_html: escapeHtml(form.email.trim()),
+            phone_html: escapeHtml(form.phone.trim() || 'Not provided'),
+            subject: form.subject,
+            subject_html: escapeHtml(form.subject),
+            message_html: escapeHtml(form.message.trim()),
+          },
+        }),
+      })
+      if (!response.ok) {
+        const detail = await response.text()
+        throw new Error(`Email delivery failed (${response.status})${detail ? `: ${detail}` : '.'}`)
+      }
+      setSent(true)
+    } catch (err) {
+      console.error('Contact form email failed', err)
+      setError(err instanceof Error ? err.message : 'Unable to send your message. Please try again.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const cards = [
@@ -82,7 +130,10 @@ export default function Contact() {
                   </Field>
                   <Field label={formCopy.messageLabel} className="sm:col-span-2"><textarea required rows={5} value={form.message} onChange={set('message')} className="input-luxe resize-none" placeholder={formCopy.messagePlaceholder} /></Field>
                   <div className="sm:col-span-2">
-                    <button className="btn-primary w-full sm:w-auto">{formCopy.buttonLabel}</button>
+                    {error && <p role="alert" className="mb-4 text-sm text-terra-600">{error}</p>}
+                    <button type="submit" disabled={sending} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
+                      {sending ? 'Sending...' : formCopy.buttonLabel}
+                    </button>
                   </div>
                 </motion.form>
               )}

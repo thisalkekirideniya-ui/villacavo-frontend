@@ -3,6 +3,7 @@ dist
 .DS_Store
 .admin-data
 .vercel
+.env
 
 
 # admin panel: separate git repo (villacavo-admin), never part of the website

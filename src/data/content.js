@@ -383,7 +383,7 @@ export const pages = {
       buttonLabel: 'Send message',
       thanksTitle: 'Thank you, {name}.',
       sendAnotherLabel: 'Send another',
-      thanksText: 'Your email app should have opened with your message. If not, write to us at {email}. We usually reply within a few hours.',
+      thanksText: 'Your message has been sent. If you need us, write to {email}. We usually reply within a few hours.',
     },
     faq: {
       eyebrow: 'FAQ',
