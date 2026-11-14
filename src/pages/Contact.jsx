@@ -41,7 +41,7 @@ export default function Contact() {
           template_id: VITE_EMAILJS_TEMPLATE_ID,
           user_id: VITE_EMAILJS_PUBLIC_KEY,
           template_params: {
-            to_email: contact.email,
+            to_email: 'villacavo@gmail.com',
             reply_to: form.email.trim(),
             name: form.name.trim(),
             name_html: escapeHtml(form.name.trim()),
