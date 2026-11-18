@@ -73,7 +73,7 @@ function FullSlider({ slides: given, interval = 6000, active: run = true, classN
 
 /** Typewriter: reveals letters one by one with a blinking caret. Untyped letters stay
  *  in the layout (invisible) so nothing shifts while typing. */
-function TypeLines({ lines, start = true, speed = 55, delay = 1200, className = '' }) {
+function TypeLines({ lines, start = true, speed = 55, delay = 1200, className = '', restClassName }) {
   const total = lines.reduce((n, l) => n + l.length, 0)
   const [count, setCount] = useState(0)
 
@@ -91,13 +91,13 @@ function TypeLines({ lines, start = true, speed = 55, delay = 1200, className = 
   return (
     <>
       <span className="sr-only">{lines.join(' ')}</span>
-      {lines.map((l) => {
+      {lines.map((l, idx) => {
         const from = offset
         offset += l.length
         const typed = Math.max(0, Math.min(l.length, count - from))
         const caretHere = count < total ? typed < l.length && count >= from : from + l.length === total
         return (
-          <span key={from} aria-hidden className={`block pb-[0.05em] ${className}`}>
+          <span key={from} aria-hidden className={`block pb-[0.05em] ${idx > 0 && restClassName ? restClassName : className}`}>
             {l.slice(0, typed)}
             {caretHere && <span className="type-caret" />}
             <span className="invisible">{l.slice(typed)}</span>
@@ -148,7 +148,7 @@ function Hero() {
                   transition={{ duration: 1.2, delay: 0.2, ease }}
                 />
                 <h1 className="mt-6 font-display uppercase leading-[1.02] tracking-[0.04em] text-white">
-                  <TypeLines lines={lines(h.title)} start={ready} className="text-[1.75rem] min-[400px]:text-[2rem] sm:text-6xl lg:text-[5.6rem]" />
+                  <TypeLines lines={lines(h.title)} start={ready} className="text-[1.75rem] min-[400px]:text-[2rem] sm:text-6xl lg:text-[5.6rem]" restClassName="text-[1.3rem] min-[400px]:text-[1.5rem] sm:text-[2.6rem] lg:text-[3.8rem]" />
                 </h1>
                 <motion.p
                   className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-white/90 sm:text-lg"
