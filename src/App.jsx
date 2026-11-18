@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 
+// test
 import Splash from './components/Splash'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
