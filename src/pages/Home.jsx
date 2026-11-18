@@ -148,7 +148,7 @@ function Hero() {
                   transition={{ duration: 1.2, delay: 0.2, ease }}
                 />
                 <h1 className="mt-6 font-display uppercase leading-[1.02] tracking-[0.04em] text-white">
-                  <TypeLines lines={lines(h.title)} start={ready} className="text-[1.75rem] min-[400px]:text-[2rem] sm:text-6xl lg:text-[5.6rem]" restClassName="text-[1.3rem] min-[400px]:text-[1.5rem] sm:text-[2.6rem] lg:text-[3.8rem]" />
+                  <TypeLines lines={lines(h.title)} start={ready} className="text-[1.55rem] min-[400px]:text-[1.8rem] sm:text-[3.2rem] lg:text-[4.6rem]" restClassName="text-[1.3rem] min-[400px]:text-[1.5rem] sm:text-[2.6rem] lg:text-[3.8rem]" />
                 </h1>
                 <motion.p
                   className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-white/90 sm:text-lg"
