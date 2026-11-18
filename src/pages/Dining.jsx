@@ -3,8 +3,6 @@ import { PageHero, Reveal, Img, SectionHeading, CurtainImg, ParallaxImg, MaskTex
 import { Fireflies } from '../components/magic'
 import { usePage, lines } from '../lib/content'
 
-const pad = (n) => String(n).padStart(2, '0')
-
 export default function Dining() {
   const { hero, care, venues, quote, cta } = usePage('dining')
   const items = (care.items || []).filter((it) => it.title || it.text)
@@ -83,16 +81,6 @@ function CareRow({ item, i }) {
       <div className="container-luxe relative grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
         <div className={`relative lg:col-span-6 ${flip ? 'lg:order-2' : ''}`}>
           <CurtainImg src={item.image} alt={item.alt || item.title} className={`aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] ${i === 1 ? 'arch' : ''}`} />
-          <motion.span
-            aria-hidden
-            className={`absolute -top-14 z-10 font-display text-[90px] leading-none sm:-top-20 sm:text-[130px] ${flip ? 'right-0' : 'left-0'} ${dark ? 'text-white/25' : 'text-terra-500/30'}`}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.5, ease }}
-          >
-            {pad(i + 1)}
-          </motion.span>
         </div>
         <div className={`lg:col-span-6 ${flip ? 'lg:order-1' : ''}`}>
           <Reveal><Eyebrow light={dark}>{item.label}</Eyebrow></Reveal>
