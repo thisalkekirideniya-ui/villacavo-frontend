@@ -11,3 +11,4 @@ admin/
 
 # backend: separate git repo (villacavo-backend), never part of the website
 backend/
+.env*.local
